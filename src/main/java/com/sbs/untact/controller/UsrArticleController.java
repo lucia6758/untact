@@ -21,8 +21,8 @@ public class UsrArticleController {
 		articlesLastId = 0;
 		articles = new ArrayList<>();
 
-		articles.add(new Article(1, "2021-02-02", "2021-02-02", "제목1", "내용1"));
-		articles.add(new Article(2, "2021-02-02", "2021-02-02", "제목2", "내용2"));
+		articles.add(new Article(1, "2021-02-02 12:12:12", "2021-02-02 12:12:12", "제목1", "내용1"));
+		articles.add(new Article(2, "2021-02-02 12:12:12", "2021-02-02 12:12:12", "제목2", "내용2"));
 	}
 
 	@RequestMapping("usr/article/detail")
@@ -42,7 +42,7 @@ public class UsrArticleController {
 	public Map<String, Object> doAdd(String title, String body) {
 		String regDate = Util.getNowDateStr();
 		String updateDate = Util.getNowDateStr();
-		
+
 		articles.add(new Article(++articlesLastId, regDate, updateDate, title, body));
 
 		Map<String, Object> rs = new HashMap<>();
@@ -100,6 +100,7 @@ public class UsrArticleController {
 			return rs;
 		}
 
+		selArticle.setUpdateDate(Util.getNowDateStr());
 		selArticle.setTitle(title);
 		selArticle.setBody(body);
 
