@@ -1,6 +1,5 @@
 package com.sbs.untact.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.sbs.untact.dao.ArticleDao;
 import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.ResultData;
-import com.sbs.untact.util.Util;
 
 @Service
 public class ArticleService {
@@ -25,17 +23,15 @@ public class ArticleService {
 	}
 
 	public ResultData addArticle(String title, String body) {
-		int id = articleDao.addArticle(title, body);
+		articleDao.addArticle(title, body);
+
+		int id = 1; // 임시
 
 		return new ResultData("S-1", "성공", "id", id);
 	}
 
 	public ResultData deleteArticle(int id) {
-		boolean rs = articleDao.deleteArticle(id);
-
-		if (rs == false) {
-			return new ResultData("F-1", "해당 게시물은 존재하지않습니다.", "id", id);
-		}
+		articleDao.deleteArticle(id);
 
 		return new ResultData("S-1", "글이 삭제되었습니다.", "id", id);
 	}
