@@ -45,4 +45,20 @@ public class ArticleService {
 
 	}
 
+	public ResultData getActorCanDeleteRd(Article article, int actorId) {
+		return getActorCanModifyRd(article, actorId);
+	}
+
+	public ResultData getActorCanModifyRd(Article article, int actorId) {
+		if (article.getMemberId() == actorId) {
+			return new ResultData("S-1", "가능합니다.");
+		}
+
+		if (MemberService.isAdmin(actorId)) {
+			return new ResultData("S-2", "가능합니다.");
+		}
+
+		return new ResultData("F-1", "권한이 없습니다.");
+	}
+
 }
