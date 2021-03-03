@@ -54,3 +54,5 @@ loginPw = "user1",
 nickname = "user1",
 cellphoneNo = "01012341234",
 email = "jangka512@gmail.com";
+
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
