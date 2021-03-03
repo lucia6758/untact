@@ -23,15 +23,23 @@ public class UsrArticleController {
 
 	@RequestMapping("usr/article/detail")
 	@ResponseBody
-	public Article showDetail(int id) {
-		Article article = articleService.getArticle(id);
+	public ResultData showDetail(Integer id) {
+		if (id == null) {
+			return new ResultData("F-1", "id를 입력해주세요.");
+		}
 
-		return article;
+		Article article = articleService.getForPrintArticle(id);
+
+		if (article == null) {
+			return new ResultData("F-2", "존재하지 않는 게시물번호 입니다.");
+		}
+
+		return new ResultData("S-1", "성공", "article", article);
 	}
 
 	@RequestMapping("usr/article/list")
 	@ResponseBody
-	public List<Article> showList(String searchKeywordType, String searchKeyword) {
+	public ResultData showList(String searchKeywordType, String searchKeyword) {
 		if (searchKeywordType != null) {
 			searchKeywordType = searchKeywordType.trim();
 		}
@@ -52,7 +60,9 @@ public class UsrArticleController {
 			searchKeywordType = null;
 		}
 
-		return articleService.getArticles(searchKeywordType, searchKeyword);
+		List<Article> articles = articleService.getForPrintArticles(searchKeywordType, searchKeyword);
+
+		return new ResultData("S-1", "성공", "articles", articles);
 	}
 
 	@RequestMapping("usr/article/doAdd")
