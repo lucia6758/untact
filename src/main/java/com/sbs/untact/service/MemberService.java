@@ -36,4 +36,8 @@ public class MemberService {
 	public static boolean isAdmin(int actorId) {
 		return actorId == 1;
 	}
+
+	public Member getMember(int id) {
+		return memberDao.getMember(id);
+	}
 }
