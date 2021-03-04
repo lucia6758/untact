@@ -3,7 +3,7 @@ package com.sbs.untact.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,6 @@ import com.sbs.untact.dto.Article;
 import com.sbs.untact.dto.Board;
 import com.sbs.untact.dto.ResultData;
 import com.sbs.untact.service.ArticleService;
-import com.sbs.untact.util.Util;
 
 @Controller
 public class UsrArticleController {
@@ -78,8 +77,8 @@ public class UsrArticleController {
 
 	@RequestMapping("usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(@RequestParam Map<String, Object> param, HttpSession session) {
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+	public ResultData doAdd(@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 		if (loginedMemberId == 0) {
 			return new ResultData("F-2", "로그인 후 이용해주세요.");
 		}
@@ -98,8 +97,8 @@ public class UsrArticleController {
 
 	@RequestMapping("usr/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(Integer id, HttpSession session) {
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+	public ResultData doDelete(Integer id, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 
 		if (loginedMemberId == 0) {
 			return new ResultData("F-2", "로그인 후 이용해주세요.");
@@ -125,8 +124,8 @@ public class UsrArticleController {
 
 	@RequestMapping("usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(Integer id, String title, String body, HttpSession session) {
-		int loginedMemberId = Util.getAsInt(session.getAttribute("loginedMemberId"), 0);
+	public ResultData doModify(Integer id, String title, String body, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 
 		if (loginedMemberId == 0) {
 			return new ResultData("F-2", "로그인 후 이용해주세요.");
@@ -154,6 +153,24 @@ public class UsrArticleController {
 		}
 
 		return articleService.modifyArticle(id, title, body);
+	}
+
+	@RequestMapping("/usr/article/doAddReply")
+	@ResponseBody
+	public ResultData doAddReply(@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+
+		if (param.get("body") == null) {
+			return new ResultData("F-1", "body를 입력해주세요.");
+		}
+
+		if (param.get("articleId") == null) {
+			return new ResultData("F-1", "articleId를 입력해주세요.");
+		}
+
+		param.put("memberId", loginedMemberId);
+
+		return articleService.addReply(param);
 	}
 
 }

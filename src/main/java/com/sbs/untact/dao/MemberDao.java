@@ -8,11 +8,11 @@ import com.sbs.untact.dto.Member;
 
 @Mapper
 public interface MemberDao {
-	public void join(Map<String, Object> param);
+	void join(Map<String, Object> param);
 
-	public Member getMemberByLoginId(String loginId);
+	Member getMemberByLoginId(String loginId);
 
-	public void modifyMember(Map<String, Object> param);
+	void modifyMember(Map<String, Object> param);
 
-	public Member getMember(int id);
+	Member getMember(int id);
 }

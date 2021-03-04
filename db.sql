@@ -55,6 +55,16 @@ nickname = "user1",
 cellphoneNo = "01012341234",
 email = "jangka512@gmail.com";
 
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = "user2",
+loginPw = "user2",
+`name` = "user2",
+nickname = "user2",
+cellphoneNo = "01012341234",
+email = "jangka512@gmail.com";
+
 ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
 
 # 기존 게시물의 작성자를 회원1로 지정
@@ -92,3 +102,51 @@ ALTER TABLE article ADD COLUMN boardId INT(10) UNSIGNED NOT NULL AFTER updateDat
 UPDATE article
 SET boardId = FLOOR(RAND() * 2) + 1
 WHERE boardId = 0;
+
+# 댓글 테이블 추가
+CREATE TABLE reply (
+  id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  regDate DATETIME NOT NULL,
+  updateDate DATETIME NOT NULL,
+  articleId INT(10) UNSIGNED NOT NULL,
+  memberId INT(10) UNSIGNED NOT NULL,
+  `body` TEXT NOT NULL
+);
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+articleId = 1,
+memberId = 1,
+`body` = "내용1 입니다.";
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+articleId = 1,
+memberId = 2,
+`body` = "내용2 입니다.";
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+articleId = 2,
+memberId = 2,
+`body` = "내용3 입니다."; 
+
+# 게시물 전용 댓글에서 범용 댓글로 바꾸기 위해 relTypeCode 추가
+ALTER TABLE reply ADD COLUMN `relTypeCode` CHAR(20) NOT NULL AFTER updateDate;
+
+# 현재는 게시물 댓글 밖에 없기 때문에 모든 행의 relTypeCode 값을 article 로 지정
+UPDATE reply
+SET relTypeCode = 'article'
+WHERE relTypeCode = '';
+
+# articleId 칼럼명을 relId로 수정
+ALTER TABLE reply CHANGE `articleId` `relId` INT(10) UNSIGNED NOT NULL;
+
+# 고속 검색을 위해서 인덱스 걸기
+ALTER TABLE reply ADD KEY (relTypeCode, relId); 
+# SELECT * FROM reply WHERE relTypeCode = 'article' AND relId = 5; # O
+# SELECT * FROM reply WHERE relTypeCode = 'article'; # O
+# SELECT * FROM reply WHERE relId = 5 AND relTypeCode = 'article'; # X
