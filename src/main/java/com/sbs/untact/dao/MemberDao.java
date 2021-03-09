@@ -3,6 +3,7 @@ package com.sbs.untact.dao;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.sbs.untact.dto.Member;
 
@@ -10,9 +11,11 @@ import com.sbs.untact.dto.Member;
 public interface MemberDao {
 	void join(Map<String, Object> param);
 
-	Member getMemberByLoginId(String loginId);
+	Member getMemberByLoginId(@Param("loginId") String loginId);
 
 	void modifyMember(Map<String, Object> param);
 
-	Member getMember(int id);
+	Member getMember(@Param("id") int id);
+
+	Member getMemberByAuthKey(@Param("authKey") String authKey);
 }

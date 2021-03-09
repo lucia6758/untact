@@ -45,4 +45,8 @@ public class MemberService {
 		return memberDao.getMember(id);
 	}
 
+	public Member getMemberByAuthKey(String authKey) {
+		return memberDao.getMemberByAuthKey(authKey);
+	}
+
 }
