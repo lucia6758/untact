@@ -56,6 +56,18 @@ public class UsrMemberController {
 		return memberService.join(param);
 	}
 
+	@RequestMapping("/usr/member/memberByAuthKey")
+	@ResponseBody
+	public ResultData showMemberByAuthKey(String authKey) {
+		if (authKey == null) {
+			return new ResultData("F-1", "authKey를 입력해주세요.");
+		}
+
+		Member existingMember = memberService.getMemberByAuthKey(authKey);
+
+		return new ResultData("S-1", String.format("유효한 회원입니다."), "member", existingMember);
+	}
+
 	@RequestMapping("/usr/member/authKey")
 	@ResponseBody
 	public ResultData showAuthKey(String loginId, String loginPw) {
@@ -78,7 +90,8 @@ public class UsrMemberController {
 		}
 
 		return new ResultData("S-1", String.format("%s님 환영합니다.", existingMember.getNickname()), "authKey",
-				existingMember.getAuthKey());
+				existingMember.getAuthKey(), "id", existingMember.getId(), "name", existingMember.getName(), "nickname",
+				existingMember.getNickname());
 	}
 
 	@RequestMapping("/usr/member/doLogin")
