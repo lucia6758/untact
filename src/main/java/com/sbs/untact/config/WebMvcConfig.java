@@ -11,11 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 	// CORS 허용
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**");
-	}
-
+		@Override
+	    public void addCorsMappings(CorsRegistry registry) {
+	        registry.addMapping("/**");
+	    }
+		
 	// beforeActionInterceptor 인터셉터 불러오기
 	@Autowired
 	@Qualifier("beforeActionInterceptor")
@@ -43,25 +43,41 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(beforeActionInterceptor).addPathPatterns("/**").excludePathPatterns("/resource/**");
 
 		// 어드민 필요
-		registry.addInterceptor(needAdminInterceptor).addPathPatterns("/adm/**")
-				.excludePathPatterns("/adm/member/login").excludePathPatterns("/adm/member/doLogin");
+		registry.addInterceptor(needAdminInterceptor)
+				.addPathPatterns("/adm/**")
+				.excludePathPatterns("/adm/member/login")
+				.excludePathPatterns("/adm/member/doLogin");
 
 		// 로그인 필요
-		registry.addInterceptor(needLoginInterceptor).addPathPatterns("/**").excludePathPatterns("/")
-				.excludePathPatterns("/resource/**").excludePathPatterns("/adm/**")
-				.excludePathPatterns("/usr/home/main").excludePathPatterns("/usr/member/authKey")
-				.excludePathPatterns("/usr/member/login").excludePathPatterns("/usr/member/doLogin")
-				.excludePathPatterns("/usr/member/join").excludePathPatterns("/usr/member/doJoin")
-				.excludePathPatterns("/usr/article/list").excludePathPatterns("/usr/article/detail")
-				.excludePathPatterns("/usr/reply/list").excludePathPatterns("/usr/member/findLoginId")
-				.excludePathPatterns("/usr/member/doFindLoginId").excludePathPatterns("/usr/member/findLoginPw")
-				.excludePathPatterns("/usr/member/doFindLoginPw").excludePathPatterns("/usr/file/test*")
-				.excludePathPatterns("/usr/file/doTest*").excludePathPatterns("/test/**").excludePathPatterns("/error");
+		registry.addInterceptor(needLoginInterceptor)
+				.addPathPatterns("/**")
+				.excludePathPatterns("/")
+				.excludePathPatterns("/resource/**")
+				.excludePathPatterns("/adm/**")
+				.excludePathPatterns("/usr/home/**")
+				.excludePathPatterns("/usr/member/authKey")
+				.excludePathPatterns("/usr/member/login")
+				.excludePathPatterns("/usr/member/doLogin")
+				.excludePathPatterns("/usr/member/join")
+				.excludePathPatterns("/usr/member/doJoin")
+				.excludePathPatterns("/usr/article/list")
+				.excludePathPatterns("/usr/article/detail")
+				.excludePathPatterns("/usr/reply/list")
+				.excludePathPatterns("/usr/member/findLoginId")
+				.excludePathPatterns("/usr/member/doFindLoginId")
+				.excludePathPatterns("/usr/member/findLoginPw")
+				.excludePathPatterns("/usr/member/doFindLoginPw")
+				.excludePathPatterns("/usr/file/test*")
+				.excludePathPatterns("/usr/file/doTest*")
+				.excludePathPatterns("/test/**").excludePathPatterns("/error");
 
 		// 로그인 상태에서 접속할 수 없는 URI 전부 기술
-		registry.addInterceptor(needLogoutInterceptor).addPathPatterns("/adm/member/login")
-				.addPathPatterns("/adm/member/doLogin").addPathPatterns("/usr/member/login")
-				.addPathPatterns("/usr/member/doLogin").addPathPatterns("/usr/member/join")
+		registry.addInterceptor(needLogoutInterceptor)
+				.addPathPatterns("/adm/member/login")
+			    .addPathPatterns("/adm/member/doLogin")
+				.addPathPatterns("/usr/member/login")
+				.addPathPatterns("/usr/member/doLogin")
+				.addPathPatterns("/usr/member/join")
 				.addPathPatterns("/usr/member/doJoin");
 	}
 }
