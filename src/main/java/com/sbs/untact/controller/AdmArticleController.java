@@ -38,7 +38,6 @@ public class AdmArticleController extends BaseConroller {
 	}
 
 	@RequestMapping("/adm/article/list")
-	@ResponseBody
 	public String showList(HttpServletRequest req, @RequestParam(defaultValue = "1") int boardId,
 			String searchKeywordType, String searchKeyword, @RequestParam(defaultValue = "1") int page) {
 
@@ -93,6 +92,11 @@ public class AdmArticleController extends BaseConroller {
 		param.put("memberId", loginedMemberId);
 
 		return articleService.addReply(param);
+	}
+
+	@RequestMapping("/adm/article/add")
+	public String showAdd(@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		return "adm/article/add";
 	}
 
 	@RequestMapping("/adm/article/doAdd")
