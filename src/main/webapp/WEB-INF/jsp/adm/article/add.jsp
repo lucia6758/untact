@@ -6,7 +6,7 @@
 
 <section class="section-1">
 	<div class="bg-white shadow-md rounded container mx-auto p-8 mt-8">
-		<form action="doAdd" method="POST">
+		<form action="doAdd" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="boardId" value="${param.boardId}" />
 			<div class="form-row flex flex-col lg:flex-row">
 				<div class="lg:flex lg:items-center lg:w-28">
@@ -28,14 +28,32 @@
 			</div>
 			<div class="form-row flex flex-col lg:flex-row">
 				<div class="lg:flex lg:items-center lg:w-28">
+					<span>첨부파일 1</span>
+				</div>
+				<div class="lg:flex-grow">
+					<input type="file" name="file__article__0__common__attachment__1"
+						class="form-row-input w-full rounded-sm" />
+				</div>
+			</div>
+			<div class="form-row flex flex-col lg:flex-row">
+				<div class="lg:flex lg:items-center lg:w-28">
+					<span>첨부파일 2</span>
+				</div>
+				<div class="lg:flex-grow">
+					<input type="file" name="file__article__0__common__attachment__2"
+						class="form-row-input w-full rounded-sm" />
+				</div>
+			</div>
+			<div class="form-row flex flex-col lg:flex-row">
+				<div class="lg:flex lg:items-center lg:w-28">
 					<span>작성</span>
 				</div>
 				<div class="lg:flex-grow">
 					<div class="btns">
 						<input type="submit"
 							class="btn-primary bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
-							value="작성"> <input onclick="history.back();"
-							type="button"
+							value="작성">
+						<input onclick="history.back();" type="button"
 							class="btn-info bg-red-500 hover:bg-red-dark text-white font-bold py-2 px-4 rounded"
 							value="취소">
 					</div>
