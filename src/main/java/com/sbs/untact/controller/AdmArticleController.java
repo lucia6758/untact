@@ -21,7 +21,7 @@ import com.sbs.untact.service.ArticleService;
 import com.sbs.untact.service.GenFileService;
 
 @Controller
-public class AdmArticleController extends BaseConroller {
+public class AdmArticleController extends BaseController {
 	@Autowired
 	private ArticleService articleService;
 	@Autowired
