@@ -232,4 +232,14 @@ public class Util {
 				.collect(Collectors.toList());
 	}
 
+	public static boolean deleteFile(String filePath) {
+		java.io.File ioFile = new java.io.File(filePath);
+		if (ioFile.exists()) {
+			return ioFile.delete();
+		}
+
+		return true;
+
+	}
+
 }
